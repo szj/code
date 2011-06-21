@@ -1,0 +1,167 @@
+$base-value = 3px
+$header-height = $base-value * 20
+$footer-height = $base-value * 15 
+$document-width = 100%
+
+$z-index-loading = 5001
+$z-index-image-hover = 101
+$z-index-foreground = 100
+
+$color-background = #333333
+$color-body-text = #dddddd
+
+$logo-width = 64px
+$logo-height = 64px
+
+vendor(prop, args)
+	// http://peter.sh/experiments/vendor-prefixed-css-property-overview/
+	-webkit-{prop} args
+	-moz-{prop} args
+	-o-{prop} args
+	-ms-{prop} args
+
+no-flickering()
+	// http://hamalog.tumblr.com/post/5011193654/ios-css
+	vendor("transform", translate3d(0, 0, 0));
+
+transform()
+	vendor("transform", arguments)
+
+transition()
+	no-flickering()
+	vendor("transition", arguments)
+
+border-radius()
+	vendor("border-radius", arguments)
+
+opacity(n)
+	opacity n
+	filter unquote('progid:DXImageTransform.Microsoft.Alpha(Opacity=' + round(n * 100) + ')')
+
+hide-text()
+	text-indent -9999px
+
+.clearfix
+	zoom 1
+	&:before
+		content: "\0020";
+		display: block;
+		height: 0;
+		visibility: hidden; 
+	&:after
+		clear: both;
+
+body
+	background-color $color-background
+	color $color-body-text
+	margin-left $base-value * 20
+	margin-right $base-value * 20
+	font-family "Segoe UI"
+
+#content
+	width 100%
+	margin 0 auto 100px auto
+#contentBox
+	text-align center
+
+header
+	padding $base-value * 4 
+	padding-left $logo-width + $base-value * 2
+	height $header-height
+	background-image url("/images/logo.png")
+	background-position left $base-value * 4
+	background-repeat no-repeat
+	h1
+		font-family "Bevan", serif
+		font-size $base-value * 12
+		text-shadow #000000 1px 1px 1px
+
+.container
+	z-index 50
+	margin-top $base-value * 10
+	margin-bottom $base-value * 10
+	div.box
+		background-position center center
+		background-repeat no-repeat
+		// padding $base-value
+		background-color lightgray
+		margin 5px
+		// border solid 1px #ffffff
+		// box-sizing border-box
+		img
+			display block
+			transition(0.2s ease-out)
+		img.row
+			width 195px
+			height 195px
+		img.standard
+			width 395px
+			height 395px
+		img.thumbnail
+			width 95px
+			height 95px
+
+footer
+	left 0
+	bottom 0
+	position fixed
+	display table-cell
+	vertical-align middle
+	width $document-width
+	height $footer-height
+	padding $base-value
+	background-color #000000
+	color #ffffff
+	z-index $z-index-foreground
+	.credit
+		width 100%
+		text-align center
+		margin-left 1em
+		margin-right 1em
+		margin-top 1em
+	.buttons
+		position relative
+		z-index 100
+		margin-top -1em
+		float right
+		margin-right 2em
+		div
+			float left
+		.hatena
+			margin-right 12px
+
+.loading
+	background-color #ffffff
+	background-image url("/images/throbber.gif")
+	background-position center center
+	background-repeat no-repeat
+	border-radius 3px
+	position fixed
+	top 16px
+	right 16px
+	width 32px
+	height 32px
+	hide-text()
+	display none
+	opacity 0.8
+	no-flickering()
+
+.searchBox
+	position fixed
+	top 16px
+	right $base-value * 20
+	z-index 5000
+	padding-top $base-value * 3
+	padding-bottom $base-value * 3
+	padding-left $base-value * 6
+	padding-right $base-value * 6
+	border-radius $base-value
+	background-color rgba(0, 0, 0, 0.5)
+	&:hover
+		background-color rgba(0, 0, 0, 0.8)
+	input[type=search]
+		margin-right 0.5em
+		width 18em
+
+.js .nav
+	visibility hidden
